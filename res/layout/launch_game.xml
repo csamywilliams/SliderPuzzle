@@ -18,7 +18,7 @@
        	android:layout_alignParentRight="true"
    />
 
-   <GridView
+  <!--   <GridView
 		android:id="@+id/grid_puzzle"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
@@ -30,7 +30,18 @@
 		android:horizontalSpacing="10dp"
 		android:stretchMode="columnWidth"
 		android:gravity="center"
-	/>
+	/> -->
+   
+   <ImageView
+        android:id="@+id/test_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/dog"
+        android:contentDescription="@string/preview_image"
+        android:layout_alignParentEnd="true"
+       	android:layout_alignParentRight="true"
+   />
+   
        
 
 </RelativeLayout>
