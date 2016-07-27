@@ -1,6 +1,7 @@
 package com.csaw.sliderpuzzle;
 
 import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,9 +22,8 @@ public class MainActivity extends ActionBarActivity {
 		button.setOnClickListener(new OnClickListener() {
 
 		    public void onClick(View v) {
-		        // TODO Auto-generated method stub
-		    	Toast.makeText(v.getContext(), "Clicked on Button", Toast.LENGTH_LONG).show();
-
+		    	Intent myIntent = new Intent(MainActivity.this, LaunchGame.class);
+		    	MainActivity.this.startActivity(myIntent);
 		    }
 		});
 	}
