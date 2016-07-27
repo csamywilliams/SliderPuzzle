@@ -4,6 +4,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
 public class MainActivity extends ActionBarActivity {
@@ -12,6 +16,16 @@ public class MainActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		Button button = (Button) findViewById(R.id.play_game_btn);
+		button.setOnClickListener(new OnClickListener() {
+
+		    public void onClick(View v) {
+		        // TODO Auto-generated method stub
+		    	Toast.makeText(v.getContext(), "Clicked on Button", Toast.LENGTH_LONG).show();
+
+		    }
+		});
 	}
 
 	@Override
@@ -32,4 +46,5 @@ public class MainActivity extends ActionBarActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
 }
