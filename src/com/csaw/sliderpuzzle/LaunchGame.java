@@ -12,7 +12,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 /**
  * Launch game activity, will need to split the picture into tiles and display
@@ -43,9 +45,12 @@ public class LaunchGame extends Activity {
 	{
 
 		Bitmap original_image = BitmapFactory.decodeResource(getResources(), R.drawable.doggy);
-		
+			
+		DisplayMetrics displayMetrics = getResources().getDisplayMetrics();    
+		int tileboard_width = displayMetrics.widthPixels;
+
 		SplitImage imageHelper = new SplitImage();
-		imageHelper.splitImage(original_image, matrix_size);
+		Bitmap i =imageHelper.splitImage(original_image, matrix_size, tileboard_width);
 		
 //			
 //		DisplayMetrics displaymetrics = new DisplayMetrics();
@@ -57,8 +62,8 @@ public class LaunchGame extends Activity {
 //		
 //		Bitmap squareImage = createSquaredBitmap(largeIcon, width);
 //		
-//		ImageView testimage = (ImageView)findViewById(R.id.test_image);
-//		testimage.setImageBitmap(squareImage);
+		ImageView testimage = (ImageView)findViewById(R.id.test_image);
+		testimage.setImageBitmap(i);
 		
 	}
 	
