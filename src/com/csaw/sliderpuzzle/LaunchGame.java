@@ -1,6 +1,9 @@
 package com.csaw.sliderpuzzle;
 
+import com.csaw.sliderpuzzle.image.SplitImage;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
@@ -25,33 +28,37 @@ public class LaunchGame extends Activity {
 
         super.onCreate(savedInstanceState);    
         setContentView(R.layout.launch_game);
-		Toast.makeText(this, "Clicked on Button", Toast.LENGTH_LONG).show();
+        Intent intent = getIntent();
+        int matrix_size = intent.getIntExtra("matrix_size", 3);
+        
+		Toast.makeText(this, "Clicked on Button "+matrix_size, Toast.LENGTH_LONG).show();
 		
-		startGame();
+		startGame(matrix_size);
 	}
 	
 	/**
 	 * First point of call to start the game
 	 */
-	public void startGame()
+	public void startGame(int matrix_size)
 	{
-		//todo get with of screen including padding
-		//todo check size of image, if rectangle convert to square
-		//todo get bitmap of new cropped image
+
+		Bitmap original_image = BitmapFactory.decodeResource(getResources(), R.drawable.doggy);
 		
-		Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.doggy);
-			
-		DisplayMetrics displaymetrics = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-		int width = displaymetrics.widthPixels;
-		int height = displaymetrics.heightPixels;
+		SplitImage imageHelper = new SplitImage();
+		imageHelper.splitImage(original_image, matrix_size);
 		
-		Log.w("sliderpuzzle", "width "+width);
-		
-		Bitmap squareImage = createSquaredBitmap(largeIcon, width);
-		
-		ImageView testimage = (ImageView)findViewById(R.id.test_image);
-		testimage.setImageBitmap(squareImage);
+//			
+//		DisplayMetrics displaymetrics = new DisplayMetrics();
+//		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+//		int width = displaymetrics.widthPixels;
+//		int height = displaymetrics.heightPixels;
+//		
+//		Log.w("sliderpuzzle", "width "+width);
+//		
+//		Bitmap squareImage = createSquaredBitmap(largeIcon, width);
+//		
+//		ImageView testimage = (ImageView)findViewById(R.id.test_image);
+//		testimage.setImageBitmap(squareImage);
 		
 	}
 	
