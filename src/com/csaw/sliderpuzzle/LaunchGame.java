@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 /**
@@ -33,22 +35,32 @@ public class LaunchGame extends Activity {
 	 */
 	public void startGame()
 	{
+		//todo get with of screen including padding
+		//todo check size of image, if rectangle convert to square
+		//todo get bitmap of new cropped image
 		
 		Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.doggy);
-		Bitmap squareImage = createSquaredBitmap(largeIcon);
+			
+		DisplayMetrics displaymetrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+		int width = displaymetrics.widthPixels;
+		int height = displaymetrics.heightPixels;
+		
+		Log.w("sliderpuzzle", "width "+width);
+		
+		Bitmap squareImage = createSquaredBitmap(largeIcon, width);
 		
 		ImageView testimage = (ImageView)findViewById(R.id.test_image);
 		testimage.setImageBitmap(squareImage);
 		
 	}
 	
-	private static Bitmap createSquaredBitmap(Bitmap srcBmp) {
-        int dim = Math.max(srcBmp.getWidth(), srcBmp.getHeight());
-        Bitmap dstBmp = Bitmap.createBitmap(dim, dim, Config.ARGB_8888);
-
+	private static Bitmap createSquaredBitmap(Bitmap srcBmp, int height) {
+        Bitmap dstBmp = Bitmap.createBitmap(height, height, Config.ARGB_8888);
         Canvas canvas = new Canvas(dstBmp);
+       
         canvas.drawColor(Color.WHITE);
-        canvas.drawBitmap(srcBmp, (dim - srcBmp.getWidth()) / 2, (dim - srcBmp.getHeight()) / 2, null);
+        canvas.drawBitmap(srcBmp, (height - srcBmp.getWidth()) / 2, (height - srcBmp.getHeight()) / 2, null);
 
         return dstBmp;
     }

@@ -22,7 +22,7 @@ public class MainActivity extends ActionBarActivity {
 		button.setOnClickListener(new OnClickListener() {
 
 		    public void onClick(View v) {
-		    	Intent myIntent = new Intent(MainActivity.this, LaunchGame.class);
+		    	Intent myIntent = new Intent(MainActivity.this, SliderTileChoice.class);
 		    	MainActivity.this.startActivity(myIntent);
 		    }
 		});
