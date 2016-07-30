@@ -50,7 +50,7 @@ public class LaunchGame extends Activity {
 		int tileboard_width = displayMetrics.widthPixels;
 
 		SplitImage imageHelper = new SplitImage();
-		Bitmap i =imageHelper.splitImage(original_image, matrix_size, tileboard_width);
+		Bitmap i =imageHelper.splitImage(original_image, tileboard_width, matrix_size);
 		
 //			
 //		DisplayMetrics displaymetrics = new DisplayMetrics();

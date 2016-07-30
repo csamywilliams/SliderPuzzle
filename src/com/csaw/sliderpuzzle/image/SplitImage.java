@@ -1,5 +1,9 @@
 package com.csaw.sliderpuzzle.image;
 
+import java.util.ArrayList;
+
+import com.csaw.sliderpuzzle.tiles.Tile;
+
 import android.graphics.Bitmap;
 import android.util.Log;
 
@@ -10,16 +14,24 @@ public class SplitImage {
 	 * Split image into to tiles
 	 * @param original_image - original bitmap to be split into tiles
 	 * @param matrix_size - size of slider puzzle
+	 * @param tileboard_width - width of screen in pixels
 	 */
-	public Bitmap splitImage(Bitmap original_image, int matrix_size, int tileboard_width)
+	public Bitmap splitImage(Bitmap original_image, int tileboard_width, int matrix_size)
 	{
 		//convert image into a square image
-		Bitmap square_bitmap = makeSquareImage(original_image);
+		Bitmap square_bitmap = makeSquareImage(original_image, tileboard_width);
 		
 		Bitmap scaled_image = scaleImageScreenWidth(square_bitmap, tileboard_width);
 		
+		ArrayList<Tile> tiles = splitImageIntoTiles(scaled_image, matrix_size);
+		for (Tile p : tiles)
+		{
+			 System.out.println("id: "+p.id+"point x: " + p.x + ", point y: " + p.y);
+		}
+		   
+		
 		//make image fit to device screen
-		Log.w("Slider puzzle tile board width ", " "+tileboard_width);
+		Log.w("Slider puzzle tiles", " "+tiles);
 		
 		return scaled_image;
 		
@@ -30,10 +42,10 @@ public class SplitImage {
 	 * @param orig_bitmap - original bitmap before resizing
 	 * @return square bitmap
 	 */
-	private Bitmap makeSquareImage(Bitmap orig_bitmap)
+	private Bitmap makeSquareImage(Bitmap orig_bitmap, int tileboard_width)
 	{
 		Bitmap newBmp = null;
-		
+
 		//if height is greater than width - use width size
 		if(orig_bitmap.getHeight() >= orig_bitmap.getWidth()) {
 			 newBmp = Bitmap.createBitmap(orig_bitmap, 
@@ -52,6 +64,7 @@ public class SplitImage {
 					  orig_bitmap.getHeight()
 					  );
 		}
+				
 		return newBmp;
 	}
 	
@@ -67,6 +80,41 @@ public class SplitImage {
 		newBmp =  Bitmap.createScaledBitmap(orig_bitmap, board_size, board_size, true);
 		return newBmp;
 		
+	}
+
+	/**
+	 * Split the original image into multiple tiles
+	 * @param orig_bitmap - original image
+	 * @param matrix_size - matrix size selected by user
+	 */
+	private ArrayList<Tile> splitImageIntoTiles(Bitmap orig_bitmap, int matrix_size)
+	{
+		int no_of_tiles = matrix_size * matrix_size;
+		int tile_width = orig_bitmap.getWidth() / matrix_size; 
+				
+		ArrayList<Tile> tiles = new ArrayList<Tile>();
+		int x_coord = 0;
+		int no_of_cols = matrix_size - 1;
+		
+		int y_coord = 0;
+		
+		for(int i = 0; i < no_of_tiles; i++)
+		{
+			
+			Bitmap sliced_tile = Bitmap.createBitmap(orig_bitmap, x_coord, y_coord, tile_width, tile_width);
+			Tile tile = new Tile(i, sliced_tile,i, x_coord, y_coord);
+			tiles.add(tile);
+			x_coord = tile_width + x_coord;
+
+			if(i == no_of_cols)
+			{
+				y_coord = tile_width;
+				x_coord = 0;
+				no_of_cols = i + 3;
+			}
+			
+		}
+		return tiles;
 	}
 
 }
