@@ -23,15 +23,17 @@ public class SplitImage {
 		
 		Bitmap scaled_image = scaleImageScreenWidth(square_bitmap, tileboard_width);
 		
-		ArrayList<Tile> tiles = splitImageIntoTiles(scaled_image, matrix_size);
+		ArrayList<Tile> tiles = splitIntoTiles(scaled_image, matrix_size);
 		for (Tile p : tiles)
 		{
-			 System.out.println("id: "+p.id+"point x: " + p.x + ", point y: " + p.y);
+			 System.out.println("point x: " + p.x + ", point y: " + p.y);
 		}
 		   
 		
 		//make image fit to device screen
-		Log.w("Slider puzzle tiles", " "+tiles);
+//		Log.w("Slider puzzle tiles", " "+tiles);
+		
+
 		
 		return scaled_image;
 		
@@ -87,34 +89,35 @@ public class SplitImage {
 	 * @param orig_bitmap - original image
 	 * @param matrix_size - matrix size selected by user
 	 */
-	private ArrayList<Tile> splitImageIntoTiles(Bitmap orig_bitmap, int matrix_size)
-	{
-		int no_of_tiles = matrix_size * matrix_size;
+	public ArrayList<Tile> splitIntoTiles(Bitmap orig_bitmap, int matrix_size){
+		
+		//get tile width
 		int tile_width = orig_bitmap.getWidth() / matrix_size; 
-				
+		int x_coord, y_coord = 0;
+		int multiple = 1;
+		
 		ArrayList<Tile> tiles = new ArrayList<Tile>();
-		int x_coord = 0;
-		int no_of_cols = matrix_size - 1;
 		
-		int y_coord = 0;
-		
-		for(int i = 0; i < no_of_tiles; i++)
+		//loop through the cols
+		for(int i = 0; i < matrix_size; i++)
 		{
+			//loop through the rows
+			for(int j = 0; j < matrix_size; j++){
 			
-			Bitmap sliced_tile = Bitmap.createBitmap(orig_bitmap, x_coord, y_coord, tile_width, tile_width);
-			Tile tile = new Tile(i, sliced_tile,i, x_coord, y_coord);
-			tiles.add(tile);
-			x_coord = tile_width + x_coord;
-
-			if(i == no_of_cols)
-			{
-				y_coord = tile_width;
-				x_coord = 0;
-				no_of_cols = i + 3;
+				//need to multiply the tile_width for each column tile
+				x_coord = tile_width * j;
+				
+				Bitmap sliced_tile = Bitmap.createBitmap(orig_bitmap, x_coord, y_coord, tile_width, tile_width);
+				Tile tile = new Tile(i, sliced_tile ,i, x_coord, y_coord);
+				tiles.add(tile);
 			}
-			
+
+			y_coord = tile_width * multiple;		
+			multiple++;		
 		}
+		
 		return tiles;
+		
 	}
 
 }
